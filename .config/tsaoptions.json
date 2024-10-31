@@ -1,0 +1,10 @@
+{
+    "instanceUrl":  "https://OneHRADO.visualstudio.com",
+    "TSADocumentation": "https://aka.ms/OBTSA",
+    "projectName":  "Microsoft_Leap",
+    "areaPath":  "Microsoft_Leap\\<Example>\\<Team>\\<AreaPath>",
+    "notificationAliases": ["rcarrigan,sirray"],
+    "ppe":  "false",
+    "template":  "TFSMSAzure",
+    "codebaseName":  "TFSMSAzure_Push_Code_From_ADO_To_GitHub_Pipeline"
+}
