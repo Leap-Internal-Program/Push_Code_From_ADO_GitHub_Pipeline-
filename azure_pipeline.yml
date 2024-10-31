@@ -4,16 +4,29 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool:
-  vmImage: ubuntu-latest
+jobs:
+- job: ExportToGitHub
+  displayName: Export to GitHub
+  steps:
+    - checkout: none
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+    # Mirror clone the Azure DevOps repository
+    - script: |
+        git clone --mirror https://$(System.AccessToken)@dev.azure.com/OneHRADO/Microsoft_Leap/_git/Push_Code_From_ADO_To_GitHub_Pipeline repo-mirror
+        cd repo-mirror
+      env:
+        System.AccessToken: $(System.AccessToken)
+      displayName: "Mirror clone from Azure DevOps"
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    # Set up Git to authenticate with GitHub
+    - script: |
+        cd repo-mirror
+        git remote set-url --push origin https://AruseyDaisy:$(GITHUB_TOKEN)@github.com/Leap-Internal-Program/Push_Code_From_ADO_GitHub_Pipeline-.git
+        git push --mirror
+      env:
+        GITHUB_TOKEN: $(GITHUB_TOKEN)
+      displayName: "Push mirror to GitHub"
